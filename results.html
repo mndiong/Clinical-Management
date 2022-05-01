@@ -1,0 +1,150 @@
+<div id="physiciansResults">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Position</th>
+                <th scope="col">ssn</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Mark Otto</td>
+                <td>cardiology</td>
+                <td>123-45-6789</td>
+                <td><button class="btn-sm btn-danger">delete</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="nurseResults">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Position</th>
+                <th scope="col">Registered</th>
+                <th scope="col">SSN</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>mdo</td>
+                <td>mdo</td>
+                <td><button class="btn-sm btn-danger">delete</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="medicationResults">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Code</th>
+                <th scope="col">Name</th>
+                <th scope="col">Brand</th>
+                <th scope="col">Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>name of med</td>
+                <td>Brand Name</td>
+                <td>description</td>
+                <td><button class="btn-sm btn-danger">delete</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="patientResults">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">SSN</th>
+                <th scope="col">Name</th>
+                <th scope="col">Address</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Insurance ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">123-45-6789</th>
+                <td>Michael Jordan</td>
+                <td>123 Main Street</td>
+                <td>123-456-7890</td>
+                <td>098765</td>
+                <td><button class="btn-sm btn-danger">delete</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="departmentResults">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Head</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Cardiology</td>
+                <td>Mark Otto</td>
+                <td><button class="btn-sm btn-danger">delete</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="appointmentResults">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Patient</th>
+                <th scope="col">Prep Nurse</th>
+                <th scope="col">Physician</th>
+                <th scope="col">Date</th>
+                <th scope="col">Exam Room</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">michael jordan</th>
+                <td>some nurse</td>
+                <td>dr. phil</td>
+                <td>May 25 2022</td>
+                <td>301</td>
+                <td><button class="btn-sm btn-danger">cancel</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script type="text/javascript">
+
+    function myFunction() {
+      var x = document.getElementById("nurseResults");
+      if (x.style.display === "none") {
+        x.style.display = "block";
+      } else {
+        x.style.display = "none";
+      }
+    }
+    </script>
+
+</script>
