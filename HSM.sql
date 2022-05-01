@@ -83,7 +83,7 @@ create table bloodbank (
 );
 
 create table phlebotomist (
-    pid int not null,
+    phlebotomistid int not null,
     name varchar(50) not null,
     ssn char(10) not null,
     primary key(pid)
@@ -117,6 +117,19 @@ create table recipient (
     primary key(recipientid)
 );
 
+create table bloodTransaction (
+    transactid int not null,
+    phlebotomist int not null,
+    quantity int not null,
+    recipientid int not null,
+    bloodtype varchar(3) not null,
+    bloodid int not null,
+    primary key(transactid),
+    foreign key(recipientid) references recipient (recipientid),
+    foreign key(bloodid) references blood (bloodid),
+    foreign key(phlebotomist) references phlebotomist (phlebotomistid),
+)
+
 create table undergoes (
     patient int not null,
     procedure int not null,
@@ -141,4 +154,3 @@ create table prescribes (
     foreign key (medication) references medication(code),
     foreign key (appointment) references appointment(appointmentid)
 );
-
