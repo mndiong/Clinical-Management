@@ -2,7 +2,8 @@
 
 create table patient (
     ssn char(10) not null,
-    name varchar(50) not null,
+    firstname varchar(50) not null,
+    lastname varchar(50) not null,
     address varchar(50) null,
     phone varchar(50) null,
     insuranceid int null,
@@ -19,7 +20,8 @@ create table medication (
 
 create table physician(
     physid int not null,
-    name varchar(50) not null,
+    firstname varchar(50) not null,
+    lastname varchar(50) not null,
     position varchar(50) not null,
     ssn char(10) not null,
     primary key(physid)
@@ -27,7 +29,8 @@ create table physician(
 
 create table nurse (
     nurseid int not null,
-    name varchar(50) not null,
+    firstname varchar(50) not null,
+    lastname varchar(50) not null,
     position varchar(50) not null,
     registered boolean not null,
     ssn char(10) not null,
@@ -84,7 +87,8 @@ create table bloodbank (
 
 create table phlebotomist (
     phlebotomistid int not null,
-    name varchar(50) not null,
+    firstname varchar(50) not null,
+    lastname varchar(50) not null,
     ssn char(10) not null,
     primary key(pid)
 );
