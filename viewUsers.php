@@ -1,95 +1,14 @@
 <?php
-// This script retrieves all the records from the users table.
-
-$page_title = 'View the Current Users';
-include('includes/header.html');
-
-// Page header:
-echo '<h1>Registered Users</h1>';
-
-require('../mysqli_connect.php'); // Connect to the db.
-
-// Make the query:
-$q = "SELECT * FROM physician";
-$r = @mysqli_query($dbc, $q); // Run the query.
-
 // Count the number of returned rows:
 $num = mysqli_num_rows($r);
 
-if ($num > 0) { // If it ran OK, display the records.
-
-	// Print how many users there are:
-	echo "<p>There are currently $num registered users.</p>\n";
-
-	// Table header.
-	echo '<table width="60%">
-	<thead>
-	<tr>
-		<th align="left">Name</th>
-		<th align="left">Date Registered</th>
-	</tr>
-	</thead>
-	<tbody>
-';
-
-	// Fetch and print all the records:
-	while ($row = mysqli_fetch_array($r, MYSQLI_ASSOC)) {
-		echo '<tr><td align="left">' . $row['name'] . '</td><td align="left">' . $row['dr'] . '</td></tr>
-		';
-	}
-
-	echo '</tbody></table>'; // Close the table.
-
-	mysqli_free_result ($r); // Free up the resources.
-
-} else { // If no records were returned.
-
-	echo '<p class="error">There are currently no registered users.</p>';
-
-}
-
-mysqli_close($dbc); // Close the database connection.
-
-include('includes/footer.html');
-
-
-// query for the physician results
-$query=	"SELECT physid, firstname, lastname, position, ssn 
-		from physician 
-        order by physid DESC";
-$run = mysqli_query($dbc, $query) or trigger_error("Query: $query\n<br> MYSQL Error: ". mysqli_error($dbc));
-
-// query for the nurse results
-$query=	"SELECT *
-		from nurse 
-        order by nurseid DESC";
-$run = mysqli_query($dbc, $query) or trigger_error("Query: $query\n<br> MYSQL Error: ". mysqli_error($dbc));
-
-// query for the medication results
-$query=	"SELECT *
-		from medication 
-        order by name DESC";
-$run = mysqli_query($dbc, $query) or trigger_error("Query: $query\n<br> MYSQL Error: ". mysqli_error($dbc));
-
-// query for the patient results
-$query=	"SELECT *
-		from patient 
-        order by firstname DESC";
-$run = mysqli_query($dbc, $query) or trigger_error("Query: $query\n<br> MYSQL Error: ". mysqli_error($dbc));
-
-// query for the appointment results
-$query=	"SELECT *
-		from appointment 
-        order by appointmentid DESC";
-$run = mysqli_query($dbc, $query) or trigger_error("Query: $query\n<br> MYSQL Error: ". mysqli_error($dbc));
-
-// query for the phlebotomist results
+// query for the phlebotomist
 $query=	"SELECT *
 		from phlebotomist 
         order by phlebotomistid DESC";
 $run = mysqli_query($dbc, $query) or trigger_error("Query: $query\n<br> MYSQL Error: ". mysqli_error($dbc));
 
-// query for the blood bank results
+// query for the blood bank
 $query=	"SELECT *
 		from bloodbank 
         order by bbankid DESC";
@@ -97,6 +16,12 @@ $run = mysqli_query($dbc, $query) or trigger_error("Query: $query\n<br> MYSQL Er
 
 
 // code that outputs the results for physician
+// query for the physician results
+$query=	"SELECT *
+		from physician 
+        order by physid DESC";
+$run = mysqli_query($dbc, $query) or trigger_error("Query: $query\n<br> MYSQL Error: ". mysqli_error($dbc));
+
 if(@mysqli_num_rows($run) > 0) {
 	echo "<br>";
 	while($qpost = mysqli_fetch_assoc($run)) {
@@ -126,6 +51,12 @@ if(@mysqli_num_rows($run) > 0) {
 }
 
 // code that outputs the results for nurse
+// query for the nurse results
+$query=	"SELECT *
+		from nurse 
+        order by nurseid DESC";
+$run = mysqli_query($dbc, $query) or trigger_error("Query: $query\n<br> MYSQL Error: ". mysqli_error($dbc));
+
 if(@mysqli_num_rows($run) > 0) {
 	echo "<br>";
 	while($qpost = mysqli_fetch_assoc($run)) {
@@ -156,6 +87,12 @@ if(@mysqli_num_rows($run) > 0) {
 }
 
 // code that outputs the results for medication
+// query for the medication
+$query=	"SELECT *
+		from medication 
+        order by name DESC";
+$run = mysqli_query($dbc, $query) or trigger_error("Query: $query\n<br> MYSQL Error: ". mysqli_error($dbc));
+
 if(@mysqli_num_rows($run) > 0) {
 	echo "<br>";
 	while($qpost = mysqli_fetch_assoc($run)) {
@@ -183,6 +120,12 @@ if(@mysqli_num_rows($run) > 0) {
 }
 
 // code that outputs the results for patient
+// query for the patient
+$query=	"SELECT *
+		from patient 
+        order by firstname DESC";
+$run = mysqli_query($dbc, $query) or trigger_error("Query: $query\n<br> MYSQL Error: ". mysqli_error($dbc));
+
 if(@mysqli_num_rows($run) > 0) {
 	echo "<br>";
 	while($qpost = mysqli_fetch_assoc($run)) {
@@ -214,6 +157,12 @@ if(@mysqli_num_rows($run) > 0) {
 }
 
 // code that outputs the results for department
+// query for the department
+$query=	"SELECT *
+		from department 
+        order by departmentid DESC";
+$run = mysqli_query($dbc, $query) or trigger_error("Query: $query\n<br> MYSQL Error: ". mysqli_error($dbc));
+
 if(@mysqli_num_rows($run) > 0) {
 	echo "<br>";
 	while($qpost = mysqli_fetch_assoc($run)) {
@@ -239,6 +188,12 @@ if(@mysqli_num_rows($run) > 0) {
 }
 
 // code that outputs the results for appointment
+// query for the appointment results
+$query=	"SELECT *
+		from appointment 
+        order by appointmentid DESC";
+$run = mysqli_query($dbc, $query) or trigger_error("Query: $query\n<br> MYSQL Error: ". mysqli_error($dbc));
+
 if(@mysqli_num_rows($run) > 0) {
 	echo "<br>";
 	while($qpost = mysqli_fetch_assoc($run)) {
@@ -268,6 +223,12 @@ if(@mysqli_num_rows($run) > 0) {
 }
 
 // code that outputs the results for physician
+// query for the physician
+$query=	"SELECT *
+		from physician 
+        order by physid DESC";
+$run = mysqli_query($dbc, $query) or trigger_error("Query: $query\n<br> MYSQL Error: ". mysqli_error($dbc));
+
 if(@mysqli_num_rows($run) > 0) {
 	echo "<br>";
 	while($qpost = mysqli_fetch_assoc($run)) {

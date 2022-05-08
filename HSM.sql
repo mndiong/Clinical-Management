@@ -105,9 +105,10 @@ create table donation (
 
 create table donor (
     donorid int not null,
-    name varchar(50) not null
+    firstname varchar(50) not null,
+    lastname varchar(50) not null,
     address varchar(50) not null,
-    email varchar(50) not null
+    email varchar(50) not null,
     phone varchar(50) not null,
     bloodtype varchar(50) not null,
     primary key(donorid)
@@ -115,9 +116,9 @@ create table donor (
 
 create table recipient (
     recipientid int not null,
-    name varchar(50) not null
+    name varchar(50) not null,
     address varchar(50) not null,
-    email varchar(50) not null
+    email varchar(50) not null,
     phone varchar(50) not null,
     bloodtype varchar(50) not null,
     primary key(recipientid)
