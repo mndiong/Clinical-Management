@@ -57,8 +57,10 @@ create table appointment (
     prepnurse int not null,
     physician int not null,
     appdate datetime not null,
-    examroom varchar(50) not null,
-    primary key(appointmentid)
+    primary key(appointmentid),
+    foreign KEY(patientid) references patient(patientid),
+    foreign key(prepnurse) references pnurse(nurseid),
+    foreign key(physician) references physician(physicianid)
 );
 
 create table room (
