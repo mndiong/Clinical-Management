@@ -1,3 +1,10 @@
+
+<?php
+    ob_start();
+    require('../includes/config.inc.php');
+    // include('../includes/header.html');
+?>
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
@@ -12,7 +19,7 @@
 
 <div class="form-group p-4">
     <h2>Add new nurse</h2>
-    <form action="" method="POST">
+    <form action="addNewNurse.php" method="POST">
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">First Name</span>
             <input type="text" class="form-control" placeholder="First Name" aria-label="name"
@@ -56,3 +63,74 @@
 
     </form>
 </div>
+
+<?php
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') { // Handle the form.
+
+	// Need the database connection:
+	require(MYSQL);
+
+	// Trim all the incoming data:
+	$trimmed = array_map('trim', $_POST);
+
+	// Assume invalid values:
+	$fn = $ln = $pos = $reg = $ssn = FALSE;
+
+	// Check for a first name:
+	if (preg_match('/^[A-Z \'.-]{2,20}$/i', $trimmed['firstname'])) {
+		$fn = mysqli_real_escape_string($dbc, $trimmed['firstname']);
+	} else {
+		echo '<p class="error">Please enter your first name!</p>';
+	}
+
+	// Check for a last name:
+	if (preg_match('/^[A-Z \'.-]{2,40}$/i', $trimmed['lastname'])) {
+		$ln = mysqli_real_escape_string($dbc, $trimmed['lastname']);
+	} else {
+		echo '<p class="error">Please enter your last name!</p>';
+	}
+
+	// Check for an position address:
+	if (preg_match('/^[A-Z \'.-]{2,40}$/i', $trimmed['position'])) {
+		$pos = mysqli_real_escape_string($dbc, $trimmed['position']);
+	} else {
+		echo '<p class="error">Please enter a valid position!</p>';
+	}
+
+    // Check for an position address:
+	$reg = $_POST['registered'];
+
+		// Check for an ssn address:
+	if (preg_match('/^[A-Z \'.-]{2,40}$/i', $trimmed['ssn'])) {
+		$ssn = mysqli_real_escape_string($dbc, $trimmed['ssn']);
+	} else {
+		echo '<p class="error">Please enter a valid ssn!</p>';
+	}
+
+	if ($fn && $ln && $pos && $reg && $ssn) { // If everything's OK...
+
+			// Create the activation code:
+			$a = md5(uniqid(rand(), true));
+
+			// Add the user to the database:
+			$q = "INSERT INTO nurse (firstname, lastname, position, registered, ssn) VALUES ('$fn', '$ln', '$pos', '$reg', '$ssn')";
+			$r = mysqli_query($dbc, $q) or trigger_error("Query: $q\n<br>MySQL Error: " . mysqli_error($dbc));
+
+			if (mysqli_affected_rows($dbc) == 1) { // If it ran OK.
+
+				// go back to index page
+				header('Location: index');
+
+			} else { // If it did not run OK.
+				echo '<p class="error">You could not be registered due to a system error. We apologize for any inconvenience.</p>';
+			}
+
+	} else { // If one of the data tests failed.
+		echo '<p class="error">Please try again.</p>';
+	}
+
+	mysqli_close($dbc);
+
+} // End of the main Submit conditional.
+?>

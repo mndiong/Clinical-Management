@@ -161,3 +161,6 @@ create table prescribes (
     foreign key (medication) references medication(code),
     foreign key (appointment) references appointment(appointmentid)
 );
+
+INSERT INTO physician (parent_id, forum_id, user_id, subject, body, date_entered) VALUES
+();
