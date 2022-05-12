@@ -141,8 +141,8 @@
                     <td>'. $qpost["firstname"] .'</td>
                     <td>'.$qpost["position"].'</td>
                     <td>'.$qpost["ssn"].'</td>
-                    <td><a href="deleteRecord.php?id=' . $qpost['physid'] . '"><button class="btn-sm btn-danger">delete</form></td>
-                    <td><a href="updateRecord.php?id=' . $qpost['physid'] . '"><button class="btn>-sm btn-info text-white">update</form></td>
+                    <td><a style="text-decoration: none; color: white" href="deleteRecord.php?id=' . $qpost['physid'] . '"><button class="btn-sm btn-danger">delete</a></td>
+                    <td><a style="text-decoration: none; color: white" href="updateRecord.php?id=' . $qpost['physid'] . '"><button class="btn>-sm btn-info text-white">update</a></td>
                   </tr>
                 </tbody>
               ';
