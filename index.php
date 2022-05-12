@@ -2,7 +2,8 @@
 <?php
 
   ob_start();
-  require('includes/config.inc.php');
+  include('C:\xampp\htdocs\hospital Management System\includes\msqli_connect.php');
+  require('C:\xampp\htdocs\hospital Management System\includes\config.inc.php');
   require(MYSQL);
 
 ?>
@@ -14,7 +15,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
-  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
   <meta name="generator" content="Hugo 0.88.1">
   <title>Home</title>
 
@@ -111,8 +111,17 @@
         <!-- this is where the table results will be displayed -->
         <div class="results" id="physiciansResults">
           <br>
-          <a type="submit" class="btn btn-sm btn-primary" href="addNewForms/addNewPhysician.html">Add New Physician</a>
-          <?php
+          <a type="submit" class="btn btn-sm btn-primary" href="addNewForms/addNewPhysician.php">Add New Physician</a>
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Position</th>
+                    <th scope="col">ssn</th>
+                  </tr>
+                </thead>
+                <?php
           // code that outputs the results for physician
           // query for the physician
           $query=	"SELECT *
@@ -122,26 +131,63 @@
 
           if(@mysqli_num_rows($run) > 0) {
             echo "<br>";
+
+            // prints the record in the table format
             while($qpost = mysqli_fetch_assoc($run)) {
                 echo '    
-                <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Position</th>
-                    <th scope="col">ssn</th>
-                  </tr>
-                </thead>
                 <tbody>
                   <tr>
-                    <th scope="row">$qpost[physid]</th>
-                    <td>$qpost[name]</td>
-                    <td>$qpost[position]</td>
-                    <td>$qpost[ssn]</td>
+                    <th scope="row">'.$qpost["physid"].'</th>
+                    <td>'. $qpost["firstname"] .'</td>
+                    <td>'.$qpost["position"].'</td>
+                    <td>'.$qpost["ssn"].'</td>
+                    <td><a href="deleteRecord.php?id=' . $qpost['physid'] . '"><button class="btn-sm btn-danger">delete</form></td>
+                    <td><a href="updateRecord.php?id=' . $qpost['physid'] . '"><button class="btn>-sm btn-info text-white">update</form></td>
+                  </tr>
+                </tbody>
+              ';
+            }
+          }
+          ?>
+          </table>
+        </div>
+
+        <div class="results" id="nurseResults">
+          <br>
+          <a type="submit" class="btn btn-sm btn-primary" href="addNewForms/addNewNurse.php">Add New Nurse</a>
+          <?php
+          // code that outputs the results for physician
+          // query for the physician
+          $query=	"SELECT *
+                  from nurse 
+                  order by nurseid DESC";
+          $run = mysqli_query($dbc, $query) or trigger_error("Query: $query\n<br> MYSQL Error: ". mysqli_error($dbc));
+
+          if(@mysqli_num_rows($run) > 0) {
+            echo "<br>";
+            echo '
+            <table class="table">
+                <thead>
+                  <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Position</th>
+                  <th scope="col">Registered</th>
+                  <th scope="col">SSN</th>
+                  </tr>
+                </thead>';
+            // prints the record in the table format
+            while($qpost = mysqli_fetch_assoc($run)) {
+                echo '    
+                <tbody>
+                  <tr>
+                    <th scope="row">'.$qpost["nurseid"].'</th>
+                    <td>'. $qpost["firstname"] .'</td>
+                    <td>'.$qpost["position"].'</td>
+                    <td>'.$qpost["registered"].'</td>
+                    <td>'.$qpost["ssn"].'</td>
                     <td><form action="deleteRecord.php" method="post"><button class="btn-sm btn-danger">delete</form></td>
                     <td><form action="updateRecord.php" method="post"><button class="btn>-sm btn-info text-white">update</form></td>
-
                   </tr>
                 </tbody>
               </table>';
@@ -150,36 +196,9 @@
           ?>
         </div>
 
-        <div class="results" id="nurseResults">
-          <br>
-          <a type="submit" class="btn btn-sm btn-primary" href="addNewForms/addNewNurse.html">Add New Nurse</a>
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Name</th>
-                <th scope="col">Position</th>
-                <th scope="col">Registered</th>
-                <th scope="col">SSN</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>mdo</td>
-                <td>mdo</td>
-                <td><form action="deleteRecord.php" method="post"><button class="btn-sm btn-danger">delete</form></td>
-                  <td><form action="updateRecord.php" method="post"><button class="btn>-sm btn-info text-white">update</form></td>
-                  </tr>
-            </tbody>
-          </table>
-        </div>
-
         <div class="results" id="medicationResults">
           <br>
-          <a type="submit" class="btn btn-sm btn-primary" href="addNewForms/addNewMedication.html">Add New
+          <a type="submit" class="btn btn-sm btn-primary" href="addNewForms/addNewMedication.php">Add New
             Medication</a>
           <table class="table">
             <thead>
@@ -205,7 +224,7 @@
 
         <div class="results" id="patientResults">
           <br>
-          <a type="submit" class="btn btn-sm btn-primary" href="addNewForms/addNewPatient.html">Add New Patient</a>
+          <a type="submit" class="btn btn-sm btn-primary" href="addNewForms/addNewPatient.php">Add New Patient</a>
           <table class="table">
             <thead>
               <tr>
@@ -232,7 +251,7 @@
 
         <div id="appointmentResults">
           <br>
-          <a type="submit" class="btn btn-sm btn-primary" href="addNewForms/addNewAppointment.html">Make a New
+          <a type="submit" class="btn btn-sm btn-primary" href="addNewForms/addNewAppointment.php">Make a New
             Appointment</a>
           <table class="table">
             <thead>
@@ -262,7 +281,7 @@
 
         <div id="phlebotomistResults">
           <br>
-          <a type="submit" class="btn btn-sm btn-primary" href="addNewForms/addNewPhlebotomist.html">Add new
+          <a type="submit" class="btn btn-sm btn-primary" href="addNewForms/addNewPhlebotomist.php">Add new
             Phlebotomist</a>
           <table class="table">
             <thead>

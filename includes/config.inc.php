@@ -1,10 +1,10 @@
 <?php
 
 define('LIVE', FALSE); // once the site is live, this will change to true
-define('EMAIL', 'business@taleten.com'); // where error messages will be sent to
+define('EMAIL', 'mndion2@students.towson.edu'); // where error messages will be sent to
 
 define('BASE_URL', 'http://localhost/');
-define('MYSQL', 'mysqli_connect.php');
+define('MYSQL', 'C:\xampp\htdocs\hospital Management System\includes\msqli_connect.php');
 
 date_default_timezone_set('America/New_York'); // time zone for date functions
 

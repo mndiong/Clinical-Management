@@ -1,14 +1,14 @@
 
 <?php
-    ob_start();
-    require('../includes/config.inc.php');
-    // include('../includes/header.html');
+  ob_start();
+  include('C:\xampp\htdocs\hospital Management System\includes\msqli_connect.php');
+  require('C:\xampp\htdocs\hospital Management System\includes\config.inc.php');
 ?>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="../index.html">TU Hospital</a>
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="../index.php">TU Hospital</a>
     <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse"
         data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -64,14 +64,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') { // Handle the form.
 	if (preg_match('/^[A-Z \'.-]{2,20}$/i', $trimmed['firstname'])) {
 		$fn = mysqli_real_escape_string($dbc, $trimmed['firstname']);
 	} else {
-		echo '<p class="error">Please enter your first name!</p>';
+		echo '<p class="error">Please enter first name!</p>';
 	}
 
 	// Check for a last name:
 	if (preg_match('/^[A-Z \'.-]{2,40}$/i', $trimmed['lastname'])) {
 		$ln = mysqli_real_escape_string($dbc, $trimmed['lastname']);
 	} else {
-		echo '<p class="error">Please enter your last name!</p>';
+		echo '<p class="error">Please enter last name!</p>';
 	}
 
 	// Check for an position address:
@@ -82,19 +82,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') { // Handle the form.
 	}
 
 		// Check for an ssn address:
-	if (preg_match('/^[A-Z \'.-]{2,40}$/i', $trimmed['ssn'])) {
+	if (strlen($trimmed['ssn']) > 0) {
 		$ssn = mysqli_real_escape_string($dbc, $trimmed['ssn']);
 	} else {
 		echo '<p class="error">Please enter a valid ssn!</p>';
 	}
 
-	if ($fn && $ln && $pos && $p) { // If everything's OK...
-
-		// Make sure the email address is available:
-		$q = "SELECT user_id FROM users WHERE email='$pos'";
-		$r = mysqli_query($dbc, $q) or trigger_error("Query: $q\n<br>MySQL Error: " . mysqli_error($dbc));
-
-		if (mysqli_num_rows($r) == 0) { // Available.
+	if ($fn && $ln && $pos && $ssn) { // If everything's OK...
 
 			// Create the activation code:
 			$a = md5(uniqid(rand(), true));
@@ -106,15 +100,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') { // Handle the form.
 			if (mysqli_affected_rows($dbc) == 1) { // If it ran OK.
 
 				// go back to index page
-				header('Location: index');
+				header('Location: ../index.php');
 
 			} else { // If it did not run OK.
 				echo '<p class="error">You could not be registered due to a system error. We apologize for any inconvenience.</p>';
 			}
 
-		} else { // The email address is not available.
-			echo '<p class="error">Error occured in updating physician table</p>';
-		}
 
 	} else { // If one of the data tests failed.
 		echo '<p class="error">Please try again.</p>';

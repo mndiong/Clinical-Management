@@ -5,13 +5,13 @@
 // selects the database, and sets the encoding.
 
 // Set the database access information as constants:
-define('DB_USER', 'root');
-define('DB_PASSWORD', 'Cosc.student/');
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'HMS');
+// define('DB_USER', 'root');
+// define('DB_PASSWORD', 'COSC457');
+// define('DB_HOST', 'localhost:3307');
+// define('DB_NAME', 'clinical');
 
 // Make the connection:
-$dbc = @mysqli_connect (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+$dbc = @mysqli_connect ('localhost:3307', 'root', 'COSC457', 'clinical');
 
 // If no connection could be made, trigger an error:
 if (!$dbc) {
