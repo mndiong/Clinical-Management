@@ -44,7 +44,7 @@ create table department (
     primary key(departmentid)
 );
 
-create table procedure (
+create table procedures (
     code int not null,
     name varchar(50) not null,
     cost real not null,
@@ -59,7 +59,7 @@ create table appointment (
     appdate datetime not null,
     primary key(appointmentid),
     foreign KEY(patientid) references patient(patientid),
-    foreign key(prepnurse) references pnurse(nurseid),
+    foreign key(prepnurse) references nurse(nurseid),
     foreign key(physician) references physician(physicianid)
 );
 
@@ -149,18 +149,28 @@ create table undergoes (
     foreign key (physician) references physician(physicianid)
 );
 
+
 create table prescribes (
     physician int not null,
-    patient int not null,
+    patient char(10) not null,
     medication int not null,
     dayof timestamp not null,
     appointment int not null,
     dose varchar(255) not null,
-    foreign key (physician) references physician(physicianid),
-    foreign key (patient) references patient(patientid),
+    foreign key (physician) references physician(physid),
+    foreign key (patient) references patient(ssn),
     foreign key (medication) references medication(code),
     foreign key (appointment) references appointment(appointmentid)
 );
 
 INSERT INTO physician (parent_id, forum_id, user_id, subject, body, date_entered) VALUES
 ();
+
+
+DELETE FROM nurse WHERE id = "{$id}";
+DELETE FROM ohysician WHERE id = "";
+DELETE FROM patient WHERE id = "";
+DELETE FROM phlebotomist WHERE id = "";
+
+
+update from patient where id = "";
