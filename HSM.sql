@@ -53,14 +53,14 @@ create table procedures (
 
 create table appointment (
     appointmentid int not null,
-    patient int not null,
+    patient ssn not null,
     prepnurse int not null,
     physician int not null,
     appdate datetime not null,
     primary key(appointmentid),
-    foreign KEY(patientid) references patient(patientid),
+    foreign KEY(patient) references patient(patientid),
     foreign key(prepnurse) references nurse(nurseid),
-    foreign key(physician) references physician(physicianid)
+    foreign key(physician) references physician(physid)
 );
 
 create table room (
@@ -92,7 +92,7 @@ create table phlebotomist (
     firstname varchar(50) not null,
     lastname varchar(50) not null,
     ssn char(10) not null,
-    primary key(pid)
+    primary key(phlebotomistid)
 );
 
 create table donation (
@@ -130,10 +130,10 @@ create table bloodTransaction (
     quantity int not null,
     recipientid int not null,
     bloodtype varchar(3) not null,
-    bloodid int not null,
+    donorid int not null,
     primary key(transactid),
     foreign key(recipientid) references recipient (recipientid),
-    foreign key(bloodid) references blood (bloodid),
+    foreign key(bloodid) references donor (donorid),
     foreign key(phlebotomist) references phlebotomist (phlebotomistid),
 )
 
@@ -162,15 +162,3 @@ create table prescribes (
     foreign key (medication) references medication(code),
     foreign key (appointment) references appointment(appointmentid)
 );
-
-INSERT INTO physician (parent_id, forum_id, user_id, subject, body, date_entered) VALUES
-();
-
-
-DELETE FROM nurse WHERE id = "{$id}";
-DELETE FROM ohysician WHERE id = "";
-DELETE FROM patient WHERE id = "";
-DELETE FROM phlebotomist WHERE id = "";
-
-
-update from patient where id = "";
