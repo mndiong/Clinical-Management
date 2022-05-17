@@ -146,8 +146,7 @@
                     <td>'. $qpost["firstname"] . ' '. $qpost["lastname"].'</td>
                     <td>'.$qpost["position"].'</td>
                     <td>'.$qpost["ssn"].'</td>
-                    <td><a style="text-decoration: none; color: white" href="deleteRecord.php?id=' . $qpost['physid'] . '&table='.$table.'&col='.$col.'"><button class="btn-sm btn-danger">delete</a></td>
-                    <td><a style="text-decoration: none; color: white" href="updateRecord.php?id=' . $qpost['physid'] . '&table='.$table.'&col='.$col.'"><button class="btn>-sm btn-info text-white">update</a></td>
+                    <td><a style="text-decoration: none; color: white" href="delete.php?id=' . $qpost['physid'] . '&table='.$table.'&col='.$col.'"><button class="btn-sm btn-danger">delete</a></td>
                   </tr>
                 </tbody>
               ';
@@ -193,11 +192,9 @@
                     <td>'.$qpost["position"].'</td>
                     <td>'.$qpost["registered"].'</td>
                     <td>'.$qpost["ssn"].'</td>
-                    <td><a style="text-decoration: none; color: white" href="deleteRecord.php?id=' . $qpost['nurseid'] . '&table='.$table.'&col='.$col.'"><button class="btn-sm btn-danger">delete</a></td>
-                    <td><a style="text-decoration: none; color: white" href="updateRecord.php?id=' . $qpost['nurseid'] . '&table='.$table.'&col='.$col.'"><button class="btn>-sm btn-info text-white">update</a></td>                  </tr>
+                    <td><a style="text-decoration: none; color: white" href="delete.php?id=' . $qpost['nurseid'] . '&table='.$table.'&col='.$col.'"><button class="btn-sm btn-danger">delete</a></td>
                   </tr>
                 </tbody>';
-        
             }
           }
           ?>
@@ -236,8 +233,7 @@
                 <td>'.$q['name'].'</td>
                 <td>'.$q['brand'].'</td>
                 <td>'.$q['description'].'</td>
-                <td><a style="text-decoration: none; color: white" href="deleteRecord.php?id=' . $q['code'] . '&table='.$table.'&col='.$col.'"><button class="btn-sm btn-danger">delete</a></td>
-                <td><a style="text-decoration: none; color: white" href="updateRecord.php?id=' . $q['code'] . '&table='.$table.'&col='.$col.'"><button class="btn>-sm btn-info text-white">update</a></td>
+                <td><a style="text-decoration: none; color: white" href="delete.php?id=' . $q['code'] . '&table='.$table.'&col='.$col.'"><button class="btn-sm btn-danger">delete</a></td>
                   </tr>
             </tbody>
          ';
@@ -281,8 +277,7 @@
                 <td>'.$q['address'].'</td>
                 <td>'.$q['phone'].'</td>
                 <td>'.$q['insuranceid'].'</td>
-                <td><a style="text-decoration: none; color: white" href="deleteRecord.php?id=' . $q['ssn'] . '&table='.$table.'&col='.$col.'"><button class="btn-sm btn-danger">delete</a></td>
-                <td><a style="text-decoration: none; color: white" href="updateRecord.php?id=' . $q['ssn'] . '&table='.$table.'&col='.$col.'"><button class="btn>-sm btn-info text-white">update</a></td>
+                <td><a style="text-decoration: none; color: white" href="delete.php?id=' . $q['ssn'] . '&table='.$table.'&col='.$col.'"><button class="btn-sm btn-danger">delete</a></td>
               </tr>
             </tbody>
           ';
@@ -294,7 +289,7 @@
 
         <div id="appointmentResults">
           <br>
-          <a type="submit" class="btn btn-sm btn-primary" href="addNewForms/addNewAppointment.php">Make an Appointment</a>
+          <!-- <a type="submit" class="btn btn-sm btn-primary" href="addNewForms/addNewAppointment.php">Make an Appointment</a> -->
             <?php
             $table = 'appointment';
             $col = 'appointmentid';
@@ -323,7 +318,7 @@
                           <td>'.$q[patient].'</td>
                           <td>'.$q[prepnurse].'</td>
                           <td>'.$q[appdate].'</td>
-                          <td><a style="text-decoration: none; color: white" href="deleteRecord.php?id=' . $q['appointmentid'] . '&table='.$table.'&col='.$col.'"><button class="btn-sm btn-danger">Cancel</a></td>
+                          <td><a style="text-decoration: none; color: white" href="delete.php?id=' . $q['appointmentid'] . '&table='.$table.'&col='.$col.'"><button class="btn-sm btn-danger">Cancel</a></td>
                       </tr>
                     </tbody>
                   ';
@@ -362,8 +357,7 @@
                 <td>'.$q[phlebotomistid].'</td>
                 <td>'. $q[firstname] . ' ' . $q[lastname] .'</td>
                 <td>'.$q[ssn].'</td>
-                <td><a style="text-decoration: none; color: white" href="deleteRecord.php?id=' . $q['phlebotomistid'] . '&table='.$table.'&col='.$col.'"><button class="btn-sm btn-danger">delete</a></td>
-                <td><a style="text-decoration: none; color: white" href="updateRecord.php?id=' . $q['phlebotomistid'] . '&table='.$table.'&col='.$col.'"><button class="btn>-sm btn-info text-white">update</a></td>
+                <td><a style="text-decoration: none; color: white" href="delete.php?id=' . $q['phlebotomistid'] . '&table='.$table.'&col='.$col.'"><button class="btn-sm btn-danger">delete</a></td>
                   </tr>
             </tbody>
           ';

@@ -23,7 +23,7 @@ if ( (isset($_GET['id'])) && (is_numeric($_GET['id'])) ) { // From view_users.ph
 }
 
 // Make the query:
-$q = "DELETE FROM $table WHERE col=$id LIMIT 1";
+$q = "DELETE FROM $table WHERE $col=$id LIMIT 1";
 $r = @mysqli_query($dbc, $q) or trigger_error("Query: $q\n<br>MySQL Error: " . mysqli_error($dbc));
 if (mysqli_affected_rows($dbc) == 1) { // If it ran OK.
 	// return to home page

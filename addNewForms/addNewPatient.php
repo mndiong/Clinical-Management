@@ -72,8 +72,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') { // Handle the form.
 	$ssn = $fn = $ln = $addy = $phone = $insid = FALSE;
 
 	// Check for a first name:
-	if (strlen($trimmed['ssn'])>0) {
+	if (strlen($trimmed['ssn']) > 0) {
 		$ssn = mysqli_real_escape_string($dbc, $trimmed['ssn']);
+	}  else {
+		echo '<p class="error">Please enter the SSN!</p>';
 	}
 
 	// Check for a first name:

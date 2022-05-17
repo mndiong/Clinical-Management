@@ -22,14 +22,20 @@
 
     <form action="" method="POST">
         <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">Name</span>
-            <input type="text" class="form-control" placeholder="Name" aria-label="last-name"
+            <span class="input-group-text" id="basic-addon1">First Name</span>
+            <input type="text" class="form-control" name="firstname" placeholder="First Name" aria-label="last-name"
+                aria-describedby="basic-addon1">
+        </div>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Last Name</span>
+            <input type="text" class="form-control" name="lastname" placeholder="Last Name" aria-label="last-name"
                 aria-describedby="basic-addon1">
         </div>
 
         <div class="input-group mb-3">
             <span class="input-group-text">SSN</span>
-            <input placeholder="123456789" type="text" class="form-control" aria-label="address">
+            <input placeholder="123456789" type="text" name="ssn" class="form-control" aria-label="address">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
         <button class="btn btn-secondary" type="button" onclick="history.back()">Go back</button>
@@ -48,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') { // Handle the form.
 	$trimmed = array_map('trim', $_POST);
 
 	// Assume invalid values:
-	$fn = $ln = $pos = $reg = $ssn = FALSE;
+	$fn = $ln = $ssn = FALSE;
 
 	// Check for a first name:
 	if (preg_match('/^[A-Z \'.-]{2,20}$/i', $trimmed['firstname'])) {
@@ -65,52 +71,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') { // Handle the form.
 	}
 
 	// Check for an position address:
-	if (preg_match('/^[A-Z \'.-]{2,40}$/i', $trimmed['position'])) {
-		$pos = mysqli_real_escape_string($dbc, $trimmed['position']);
-	} else {
-		echo '<p class="error">Please enter a valid position!</p>';
-	}
-
-    // Check for an position address:
-	$reg = $_POST['registered'];
-
-		// Check for an ssn address:
-	if (preg_match('/^[A-Z \'.-]{2,40}$/i', $trimmed['ssn'])) {
-		$ssn = mysqli_real_escape_string($dbc, $trimmed['ssn']);
+	if (strlen($trimmed['ssn']) > 0) {
+		$pos = mysqli_real_escape_string($dbc, $trimmed['ssn']);
 	} else {
 		echo '<p class="error">Please enter a valid ssn!</p>';
 	}
 
-	if ($fn && $ln && $pos && $reg && $ssn) { // If everything's OK...
-
-		// Make sure the email address is available:
-		$q = "SELECT user_id FROM users WHERE email='$pos'";
+	if ($fn && $ln && $ssn) { // If everything's OK...
+		// Add the user to the database:
+		$q = "INSERT INTO phlebotomist (firstname, lastname, ssn) VALUES ('$fn', '$ln', '$ssn')";
 		$r = mysqli_query($dbc, $q) or trigger_error("Query: $q\n<br>MySQL Error: " . mysqli_error($dbc));
 
-		if (mysqli_num_rows($r) == 0) { // Available.
+		if (mysqli_affected_rows($dbc) == 1) { // If it ran OK.
 
-			// Create the activation code:
-			$a = md5(uniqid(rand(), true));
-
-			// Add the user to the database:
-			$q = "INSERT INTO nurse (firstname, lastname, position, registered, ssn) VALUES ('$fn', '$ln', '$pos', '$reg', '$ssn')";
-			$r = mysqli_query($dbc, $q) or trigger_error("Query: $q\n<br>MySQL Error: " . mysqli_error($dbc));
-
-			if (mysqli_affected_rows($dbc) == 1) { // If it ran OK.
-
-				// go back to index page
-				header('Location: ../index.php');
-
-			} else { // If it did not run OK.
-				echo '<p class="error">You could not be registered due to a system error. We apologize for any inconvenience.</p>';
-			}
-
-		} else { // The email address is not available.
-			echo '<p class="error">Error occured in updating nurse table</p>';
+			// go back to index page
+			header('Location: ../index.php');
+		} else { // If one of the data tests failed.
+			echo '<p class="error">Please try again.</p>';
 		}
-
-	} else { // If one of the data tests failed.
-		echo '<p class="error">Please try again.</p>';
 	}
 
 	mysqli_close($dbc);
