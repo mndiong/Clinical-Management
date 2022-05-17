@@ -39,14 +39,14 @@
         <div class="input-group mb-3">
             <span class="input-group-text">Registered</span>
             <div class="form-check m-3">
-                <input class="form-check-input" type="radio" name="registered" id="flexRadioDefault1">
+                <input class="form-check-input" type="radio" value="yes" name="registered" id="flexRadioDefault1">
                 <label class="form-check-label" for="flexRadioDefault1">
                     Yes
                 </label>
             </div>
 
             <div class="form-check m-3">
-                <input class="form-check-input" type="radio" name="registered" id="flexRadioDefault2" checked>
+                <input class="form-check-input" type="radio" value="no" name="registered" id="flexRadioDefault2" checked>
                 <label class="form-check-label" for="flexRadioDefault2">
                     No
                 </label>

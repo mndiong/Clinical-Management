@@ -11,7 +11,7 @@
 // define('DB_NAME', 'clinical');
 
 // Make the connection:
-$dbc = @mysqli_connect ('localhost:3307', 'root', 'COSC457', 'clinical');
+$dbc = @mysqli_connect ('localhost:3307', 'root', '', 'clinical');
 
 // If no connection could be made, trigger an error:
 if (!$dbc) {
