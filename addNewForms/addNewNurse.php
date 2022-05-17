@@ -22,31 +22,31 @@
     <form action="addNewNurse.php" method="POST">
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">First Name</span>
-            <input type="text" class="form-control" placeholder="First Name" aria-label="name"
+            <input type="text" class="form-control" name="firstname" placeholder="First Name" aria-label="name"
                 aria-describedby="basic-addon1">
         </div>
 
         <div class="input-group mb-3">
             <span class="input-group-text">Last Name</span>
-            <input placeholder="Last Name" type="text" class="form-control" aria-label="email">
+            <input placeholder="Last Name" type="text" name="lastname" class="form-control" aria-label="email">
         </div>
 
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon3">Position</span>
-            <input type="text" class="form-control" id="address" aria-describedby="basic-addon3">
+            <input type="text" class="form-control" name="position" id="address" aria-describedby="basic-addon3">
         </div>
 
         <div class="input-group mb-3">
             <span class="input-group-text">Registered</span>
             <div class="form-check m-3">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                <input class="form-check-input" type="radio" name="registered" id="flexRadioDefault1">
                 <label class="form-check-label" for="flexRadioDefault1">
                     Yes
                 </label>
             </div>
 
             <div class="form-check m-3">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                <input class="form-check-input" type="radio" name="registered" id="flexRadioDefault2" checked>
                 <label class="form-check-label" for="flexRadioDefault2">
                     No
                 </label>
@@ -55,7 +55,7 @@
 
         <div class="input-group mb-3">
             <span class="input-group-text">SSN</span>
-            <input type="text" class="form-control" placeholder="123-45-6789" aria-label="Salary">
+            <input type="text" class="form-control" name="ssn" placeholder="123-45-6789" aria-label="Salary">
         </div>
 
         <button type="submit" class="btn btn-primary">Submit</button>
@@ -102,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') { // Handle the form.
 	$reg = $_POST['registered'];
 
 		// Check for an ssn address:
-	if (preg_match('/^[A-Z \'.-]{2,40}$/i', $trimmed['ssn'])) {
+	if (strlen($trimmed['ssn']) > 0) {
 		$ssn = mysqli_real_escape_string($dbc, $trimmed['ssn']);
 	} else {
 		echo '<p class="error">Please enter a valid ssn!</p>';
@@ -120,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') { // Handle the form.
 			if (mysqli_affected_rows($dbc) == 1) { // If it ran OK.
 
 				// go back to index page
-				header('Location: index');
+				header('Location: ../index.php');
 
 			} else { // If it did not run OK.
 				echo '<p class="error">You could not be registered due to a system error. We apologize for any inconvenience.</p>';

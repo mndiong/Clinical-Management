@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') { // Handle the form.
 			if (mysqli_affected_rows($dbc) == 1) { // If it ran OK.
 
 				// go back to index page
-				header('Location: index');
+				header('Location: ../index.php');
 
 			} else { // If it did not run OK.
 				echo '<p class="error">You could not be registered due to a system error. We apologize for any inconvenience.</p>';

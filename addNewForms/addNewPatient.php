@@ -19,31 +19,37 @@
 <div class="form-group p-4">
     <h2>Add new patient</h2>
     <form action="" method="POST">
+		<div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Social Security Number</span>
+            <input type="text" class="form-control" name="ssn" placeholder="123456789" aria-label="first-name"
+                aria-describedby="basic-addon1">
+        </div>
+
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">First Name</span>
-            <input type="text" class="form-control" placeholder="First Name" aria-label="first-name"
+            <input type="text" class="form-control" name="firstname" placeholder="First Name" aria-label="first-name"
                 aria-describedby="basic-addon1">
         </div>
 
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">Last Name</span>
-            <input type="text" class="form-control" placeholder="Last Name" aria-label="last-name"
+            <input type="text" class="form-control" name="lastname" placeholder="Last Name" aria-label="last-name"
                 aria-describedby="basic-addon1">
         </div>
 
         <div class="input-group mb-3">
             <span class="input-group-text">Address</span>
-            <input placeholder="address" type="text" class="form-control" aria-label="address">
+            <input placeholder="address" type="text" name="address" class="form-control" aria-label="address">
         </div>
 
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon3">Phone</span>
-            <input type="text" class="form-control" id="phone" aria-describedby="basic-addon3">
+            <input type="text" class="form-control" name="phone" id="phone" aria-describedby="basic-addon3">
         </div>
 
         <div class="input-group mb-3">
             <span class="input-group-text">Insurance ID</span>
-            <input type="text" class="form-control" placeholder="Insurance ID">
+            <input type="text" class="form-control" name="insid" placeholder="Insurance ID">
         </div>
 
         <button type="submit" class="btn btn-primary">Submit</button>
@@ -63,7 +69,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') { // Handle the form.
 	$trimmed = array_map('trim', $_POST);
 
 	// Assume invalid values:
-	$fn = $ln = $addy = $phone = $insid = FALSE;
+	$ssn = $fn = $ln = $addy = $phone = $insid = FALSE;
+
+	// Check for a first name:
+	if (strlen($trimmed['ssn'])>0) {
+		$ssn = mysqli_real_escape_string($dbc, $trimmed['ssn']);
+	}
 
 	// Check for a first name:
 	if (preg_match('/^[A-Z \'.-]{2,20}$/i', $trimmed['firstname'])) {
@@ -80,31 +91,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') { // Handle the form.
 	}
 
     	// Check for an address:
-	if (preg_match('/^[A-Z \'.-]{2,40}$/i', $trimmed['address'])) {
+	if (strlen($trimmed['address'])>0) {
 		$addy = mysqli_real_escape_string($dbc, $trimmed['address']);
-	} else {
-		echo '<p class="error">Please enter a valid address!</p>';
-	}
+	} 
 
 	// Check for an address:
-	if (preg_match('/^[A-Z \'.-]{2,40}$/i', $trimmed['phone'])) {
+	if (strlen($trimmed['phone'])>0) {
 		$phone = mysqli_real_escape_string($dbc, $trimmed['phone']);
-	} else {
-		echo '<p class="error">Please enter a valid address!</p>';
-	}
-
-    	// Check for an address:
-	if (preg_match('/^[A-Z \'.-]{2,40}$/i', $trimmed['phone'])) {
-		$phone = mysqli_real_escape_string($dbc, $trimmed['phone']);
-	} else {
-		echo '<p class="error">Please enter a valid address!</p>';
 	}
 
 		// Check for an insid:
-	if (preg_match('/^[A-Z \'.-]{2,40}$/i', $trimmed['insid'])) {
+	if (strlen($trimmed['insid'])) {
 		$insid = mysqli_real_escape_string($dbc, $trimmed['insid']);
-	} else {
-		echo '<p class="error">Please enter a valid insid!</p>';
 	}
 
 	if ($fn && $ln && $addy && $phone && $insid) { // If everything's OK...
@@ -114,13 +112,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') { // Handle the form.
 			$a = md5(uniqid(rand(), true));
 
 			// Add the user to the database:
-			$q = "INSERT INTO patient (firstname, lastname, address, phone, insuranceid) VALUES ('$fn', '$ln', '$addy', '$phone', '$insid')";
+			$q = "INSERT INTO patient (ssn, firstname, lastname, address, phone, insuranceid) VALUES ('$ssn', '$fn', '$ln', '$addy', '$phone', '$insid')";
 			$r = mysqli_query($dbc, $q) or trigger_error("Query: $q\n<br>MySQL Error: " . mysqli_error($dbc));
 
 			if (mysqli_affected_rows($dbc) == 1) { // If it ran OK.
 
 				// go back to index page
-				header('Location: index');
+				header('Location: ../index.php');
 
 			} else { // If it did not run OK.
 				echo '<p class="error">You could not be registered due to a system error. We apologize for any inconvenience.</p>';

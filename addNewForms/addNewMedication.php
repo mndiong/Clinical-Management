@@ -77,13 +77,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') { // Handle the form.
     // Check for an brand address:
 	$description = $_POST['description'];
 
-	// Check for an ssn address:
-	if (preg_match('/^[A-Z \'.-]{2,40}$/i', $trimmed['ssn'])) {
-		$ssn = mysqli_real_escape_string($dbc, $trimmed['ssn']);
-	} else {
-		echo '<p class="error">Please enter a valid ssn!</p>';
-	}
-
 	if ($name && $brand && $description) { // If everything's OK...
 
         // Create the activation code:
@@ -96,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') { // Handle the form.
 			if (mysqli_affected_rows($dbc) == 1) { // If it ran OK.
 
 				// go back to index page
-				header('Location: index');
+				header('Location: ../index.php');
 
 			} else { // If it did not run OK.
 				echo '<p class="error">You could not be description due to a system error. We apologize for any inconvenience.</p>';

@@ -52,7 +52,7 @@
 <body>
 
   <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">TU Hospital</a>
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">TU Clinic</a>
     <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse"
       data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -112,6 +112,20 @@
         <div class="results" id="physiciansResults">
           <br>
           <a type="submit" class="btn btn-sm btn-primary" href="addNewForms/addNewPhysician.php">Add New Physician</a>
+          <?php
+                
+          // code that outputs the results for physician
+          // query for the physician
+          $table = 'physician';
+          $col = 'physid';
+          $query=	"SELECT *
+                  from physician 
+                  order by physid ASC";
+    
+          $run = mysqli_query($dbc, $query) or trigger_error("Query: $query\n<br> MYSQL Error: ". mysqli_error($dbc));
+
+          if(@mysqli_num_rows($run) > 0) {
+            echo'
             <table class="table">
                 <thead>
                   <tr>
@@ -120,16 +134,7 @@
                     <th scope="col">Position</th>
                     <th scope="col">ssn</th>
                   </tr>
-                </thead>
-                <?php
-          // code that outputs the results for physician
-          // query for the physician
-          $query=	"SELECT *
-                  from physician 
-                  order by physid DESC";
-          $run = mysqli_query($dbc, $query) or trigger_error("Query: $query\n<br> MYSQL Error: ". mysqli_error($dbc));
-
-          if(@mysqli_num_rows($run) > 0) {
+                </thead>';
             echo "<br>";
 
             // prints the record in the table format
@@ -138,11 +143,11 @@
                 <tbody>
                   <tr>
                     <th scope="row">'.$qpost["physid"].'</th>
-                    <td>'. $qpost["firstname"] .'</td>
+                    <td>'. $qpost["firstname"] . ' '. $qpost["lastname"].'</td>
                     <td>'.$qpost["position"].'</td>
                     <td>'.$qpost["ssn"].'</td>
-                    <td><a style="text-decoration: none; color: white" href="deleteRecord.php?id=' . $qpost['physid'] . '"><button class="btn-sm btn-danger">delete</a></td>
-                    <td><a style="text-decoration: none; color: white" href="updateRecord.php?id=' . $qpost['physid'] . '"><button class="btn>-sm btn-info text-white">update</a></td>
+                    <td><a style="text-decoration: none; color: white" href="deleteRecord.php?id=' . $qpost['physid'] . '&table='.$table.'&col='.$col.'"><button class="btn-sm btn-danger">delete</a></td>
+                    <td><a style="text-decoration: none; color: white" href="updateRecord.php?id=' . $qpost['physid'] . '&table='.$table.'&col='.$col.'"><button class="btn>-sm btn-info text-white">update</a></td>
                   </tr>
                 </tbody>
               ';
@@ -158,6 +163,8 @@
           <?php
           // code that outputs the results for physician
           // query for the physician
+          $table = 'nurse';
+          $col = 'nurseid';
           $query=	"SELECT *
                   from nurse 
                   order by nurseid DESC";
@@ -182,24 +189,36 @@
                 <tbody>
                   <tr>
                     <th scope="row">'.$qpost["nurseid"].'</th>
-                    <td>'. $qpost["firstname"] .'</td>
+                    <td>'.$qpost["firstname"].' '.$qpost["lastname"].'</td>
                     <td>'.$qpost["position"].'</td>
                     <td>'.$qpost["registered"].'</td>
                     <td>'.$qpost["ssn"].'</td>
-                    <td><form action="deleteRecord.php" method="post"><button class="btn-sm btn-danger">delete</form></td>
-                    <td><form action="updateRecord.php" method="post"><button class="btn>-sm btn-info text-white">update</form></td>
+                    <td><a style="text-decoration: none; color: white" href="deleteRecord.php?id=' . $qpost['nurseid'] . '&table='.$table.'&col='.$col.'"><button class="btn-sm btn-danger">delete</a></td>
+                    <td><a style="text-decoration: none; color: white" href="updateRecord.php?id=' . $qpost['nurseid'] . '&table='.$table.'&col='.$col.'"><button class="btn>-sm btn-info text-white">update</a></td>                  </tr>
                   </tr>
-                </tbody>
-              </table>';
+                </tbody>';
+        
             }
           }
           ?>
+          </table>
         </div>
 
         <div class="results" id="medicationResults">
           <br>
           <a type="submit" class="btn btn-sm btn-primary" href="addNewForms/addNewMedication.php">Add New
             Medication</a>
+            <?php
+            $table = 'medication';
+            $col = 'code';
+            $query=	"SELECT *
+                      from medication 
+                      order by code DESC";
+            $run = mysqli_query($dbc, $query) or trigger_error("Query: $query\n<br> MYSQL Error: ". mysqli_error($dbc));
+    
+          if(@mysqli_num_rows($run) > 0) {
+
+            echo '
           <table class="table">
             <thead>
               <tr>
@@ -208,23 +227,41 @@
                 <th scope="col">Brand</th>
                 <th scope="col">Description</th>
               </tr>
-            </thead>
+            </thead>';
+            while($q = mysqli_fetch_assoc($run)) {
+              echo '
             <tbody>
               <tr>
-                <th scope="row">1</th>
-                <td>name of med</td>
-                <td>Brand Name</td>
-                <td>description</td>
-                <td><form action="deleteRecord.php" method="post"><button class="btn-sm btn-danger">delete</form></td>
-                  <td><form action="updateRecord.php" method="post"><button class="btn>-sm btn-info text-white">update</form></td>
+                <th scope="row">'.$q['code'].'</th>
+                <td>'.$q['name'].'</td>
+                <td>'.$q['brand'].'</td>
+                <td>'.$q['description'].'</td>
+                <td><a style="text-decoration: none; color: white" href="deleteRecord.php?id=' . $q['code'] . '&table='.$table.'&col='.$col.'"><button class="btn-sm btn-danger">delete</a></td>
+                <td><a style="text-decoration: none; color: white" href="updateRecord.php?id=' . $q['code'] . '&table='.$table.'&col='.$col.'"><button class="btn>-sm btn-info text-white">update</a></td>
                   </tr>
             </tbody>
-          </table>
+         ';
+            }
+          }
+          ?>
+         </table>
         </div>
 
         <div class="results" id="patientResults">
           <br>
           <a type="submit" class="btn btn-sm btn-primary" href="addNewForms/addNewPatient.php">Add New Patient</a>
+          <?php
+          // code that outputs the results for physician
+          // query for the physician
+          $table = 'patient';
+          $col = 'ssn';
+          $query=	"SELECT *
+                  from patient 
+                  order by ssn DESC";
+          $run = mysqli_query($dbc, $query) or trigger_error("Query: $query\n<br> MYSQL Error: ". mysqli_error($dbc));
+          if(@mysqli_num_rows($run) > 0) {
+
+          echo '
           <table class="table">
             <thead>
               <tr>
@@ -234,55 +271,82 @@
                 <th scope="col">Phone</th>
                 <th scope="col">Insurance ID</th>
               </tr>
-            </thead>
+            </thead>';
+            while($q = mysqli_fetch_assoc($run)) {
+              echo'
             <tbody>
               <tr>
-                <th scope="row">123-45-6789</th>
-                <td>Michael Jordan</td>
-                <td>123 Main Street</td>
-                <td>123-456-7890</td>
-                <td>098765</td>
-                <td><form action="deleteRecord.php" method="post"><button class="btn-sm btn-danger">delete</form></td>
-                <td><form action="updateRecord.php" method="post"><button class="btn>-sm btn-info text-white">update</form></td>
+                <th scope="row">'.$q['ssn'].'</th>
+                <td>'.$q['firstname'].' '. $q['lastname'].'</td>
+                <td>'.$q['address'].'</td>
+                <td>'.$q['phone'].'</td>
+                <td>'.$q['insuranceid'].'</td>
+                <td><a style="text-decoration: none; color: white" href="deleteRecord.php?id=' . $q['ssn'] . '&table='.$table.'&col='.$col.'"><button class="btn-sm btn-danger">delete</a></td>
+                <td><a style="text-decoration: none; color: white" href="updateRecord.php?id=' . $q['ssn'] . '&table='.$table.'&col='.$col.'"><button class="btn>-sm btn-info text-white">update</a></td>
               </tr>
             </tbody>
+          ';
+            }
+          }
+          ?>
           </table>
         </div>
 
         <div id="appointmentResults">
           <br>
-          <a type="submit" class="btn btn-sm btn-primary" href="addNewForms/addNewAppointment.php">Make a New
-            Appointment</a>
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Patient</th>
-                <th scope="col">Prep Nurse</th>
-                <th scope="col">Physician</th>
-                <th scope="col">Date</th>
-                <th scope="col">Exam Room</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Michael Jordan</td>
-                <td>some nurse</td>
-                <td>dr. phil</td>
-                <td>May 25 2022</td>
-                <td>301</td>
-                <td><form action="deleteRecord.php" method="post"><button class="btn-sm btn-danger">cancek</form></td>
-                  <td><form action="updateRecord.php" method="post"><button class="btn>-sm btn-info text-white">update</form></td>
-                  </tr>
-            </tbody>
-          </table>
+          <a type="submit" class="btn btn-sm btn-primary" href="addNewForms/addNewAppointment.php">Make an Appointment</a>
+            <?php
+            $table = 'appointment';
+            $col = 'appointmentid';
+            $query=	"SELECT *
+                      from appointment 
+                      order by appdate DESC";
+            $run = mysqli_query($dbc, $query) or trigger_error("Query: $query\n<br> MYSQL Error: ". mysqli_error($dbc));
+            if(@mysqli_num_rows($run) > 0) {
+              echo '
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Patient</th>
+                        <th scope="col">Prep Nurse</th>
+                        <th scope="col">Physician</th>
+                        <th scope="col">Date</th>
+                      </tr>
+                    </thead>';
+                    while($q = mysqli_fetch_assoc($run)) {
+                      echo'
+                    <tbody>
+                      <tr>
+                        <th scope="row">'.$q[appointmentid].'</th>
+                          <td>'. $q[firstname] . ' ' . $q[lastname] .'</td>
+                          <td>'.$q[patient].'</td>
+                          <td>'.$q[prepnurse].'</td>
+                          <td>'.$q[appdate].'</td>
+                          <td><a style="text-decoration: none; color: white" href="deleteRecord.php?id=' . $q['appointmentid'] . '&table='.$table.'&col='.$col.'"><button class="btn-sm btn-danger">Cancel</a></td>
+                      </tr>
+                    </tbody>
+                  ';
+                  }
+            }
+            ?>
+            </table>
         </div>
 
         <div id="phlebotomistResults">
           <br>
           <a type="submit" class="btn btn-sm btn-primary" href="addNewForms/addNewPhlebotomist.php">Add new
             Phlebotomist</a>
+            <?php
+            $table = 'phlebotomist';
+            $col = 'phlebotomistid';
+            $query=	"SELECT *
+            from phlebotomist 
+            order by phlebotomistid DESC";
+            $run = mysqli_query($dbc, $query) or trigger_error("Query: $query\n<br> MYSQL Error: ". mysqli_error($dbc));
+
+          if(@mysqli_num_rows($run) > 0) {
+            echo'
           <table class="table">
             <thead>
               <tr>
@@ -290,16 +354,22 @@
                 <th scope="col">Name</th>
                 <th scope="col">SSN</th>
               </tr>
-            </thead>
-            <tbody>
+            </thead>';
+            while($q = mysqli_fetch_assoc($run)) {
+              echo'
+              <tbody>
               <tr>
-                <th scope="row">1</th>
-                <td>Michael Jordan</td>
-                <td>123456789</td>
-                <td><form action="deleteRecord.php" method="post"><button class="btn-sm btn-danger">delete</form></td>
-                  <td><form action="updateRecord.php" method="post"><button class="btn>-sm btn-info text-white">update</form></td>
+                <td>'.$q[phlebotomistid].'</td>
+                <td>'. $q[firstname] . ' ' . $q[lastname] .'</td>
+                <td>'.$q[ssn].'</td>
+                <td><a style="text-decoration: none; color: white" href="deleteRecord.php?id=' . $q['phlebotomistid'] . '&table='.$table.'&col='.$col.'"><button class="btn-sm btn-danger">delete</a></td>
+                <td><a style="text-decoration: none; color: white" href="updateRecord.php?id=' . $q['phlebotomistid'] . '&table='.$table.'&col='.$col.'"><button class="btn>-sm btn-info text-white">update</a></td>
                   </tr>
             </tbody>
+          ';
+        }
+      }
+          ?>
           </table>
         </div>
 

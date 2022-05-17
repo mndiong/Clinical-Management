@@ -23,29 +23,29 @@
     <form action="addNewAppointment.php" method="POST">
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">Patient</span>
-            <input type="text" class="form-control" placeholder="Patient Name" aria-label="first-name"
+            <input type="text" class="form-control" name="patient" placeholder="Patient Name" aria-label="first-name"
                 aria-describedby="basic-addon1">
         </div>
 
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">Prep Nurse Name</span>
-            <input type="text" class="form-control" placeholder="Nurse Name" aria-label="last-name"
+            <input type="text" class="form-control" name="nurse" placeholder="Nurse Name" aria-label="last-name"
                 aria-describedby="basic-addon1">
         </div>
 
         <div class="input-group mb-3">
             <span class="input-group-text">Physician</span>
-            <input placeholder="physician name" type="text" class="form-control" aria-label="address">
+            <input placeholder="physician name" type="text" name="phys" class="form-control" aria-label="address">
         </div>
 
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon3">Date</span>
-            <input type="date" value="yyyy-mm-dd" class="form-control" id="phone" aria-describedby="basic-addon3">
+            <input type="date" value="yyyy-mm-dd" name="date" class="form-control" id="phone" aria-describedby="basic-addon3">
         </div>
 
         <div class="input-group mb-3">
             <span class="input-group-text">Examination room</span>
-            <input type="text" class="form-control" placeholder="Room #">
+            <input type="text" class="form-control" name="room" placeholder="Room #">
         </div>
 
         <button type="submit" class="btn btn-primary">Submit</button>
@@ -68,29 +68,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') { // Handle the form.
 	$fn = $ln = $pos = $ssn = FALSE;
 
 	// Check for a first name:
-	if (preg_match('/^[A-Z \'.-]{2,20}$/i', $trimmed['firstname'])) {
-		$fn = mysqli_real_escape_string($dbc, $trimmed['firstname']);
+	if (preg_match('/^[A-Z \'.-]{2,20}$/i', $trimmed['patient'])) {
+		$pat = mysqli_real_escape_string($dbc, $trimmed['patient']);
 	} else {
 		echo '<p class="error">Please enter your first name!</p>';
 	}
 
 	// Check for a last name:
-	if (preg_match('/^[A-Z \'.-]{2,40}$/i', $trimmed['lastname'])) {
-		$ln = mysqli_real_escape_string($dbc, $trimmed['lastname']);
+	if (preg_match('/^[A-Z \'.-]{2,40}$/i', $trimmed['nurse'])) {
+		$nurse = mysqli_real_escape_string($dbc, $trimmed['nurse']);
 	} else {
 		echo '<p class="error">Please enter your last name!</p>';
 	}
 
 	// Check for an position address:
-	if (preg_match('/^[A-Z \'.-]{2,40}$/i', $trimmed['position'])) {
-		$pos = mysqli_real_escape_string($dbc, $trimmed['position']);
+	if (preg_match('/^[A-Z \'.-]{2,40}$/i', $trimmed['phys'])) {
+		$phys = mysqli_real_escape_string($dbc, $trimmed['phys']);
 	} else {
-		echo '<p class="error">Please enter a valid position!</p>';
+		echo '<p class="error">Please enter a valid physician name!</p>';
 	}
 
 		// Check for an ssn address:
-	if (preg_match('/^[A-Z \'.-]{2,40}$/i', $trimmed['ssn'])) {
-		$ssn = mysqli_real_escape_string($dbc, $trimmed['ssn']);
+	if (preg_match('/^[A-Z \'.-]{2,40}$/i', $trimmed['date'])) {
+		$date = mysqli_real_escape_string($dbc, $trimmed['date']);
+	} else {
+		echo '<p class="error">Please enter a valid ssn!</p>';
+	}
+
+	// Check for an ssn address:
+	if (strlen($trimmed['room'])) {
+		$date = mysqli_real_escape_string($dbc, $trimmed['room']);
 	} else {
 		echo '<p class="error">Please enter a valid ssn!</p>';
 	}
@@ -107,13 +114,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') { // Handle the form.
 			$a = md5(uniqid(rand(), true));
 
 			// Add the user to the database:
-			$q = "INSERT INTO physician (firstname, lastname, position, ssn) VALUES ('$fn', '$ln', '$pos', '$ssn')";
+			$q = "INSERT INTO appointment (firstname, lastname, position, ssn) VALUES ('$fn', '$ln', '$pos', '$ssn')";
 			$r = mysqli_query($dbc, $q) or trigger_error("Query: $q\n<br>MySQL Error: " . mysqli_error($dbc));
 
 			if (mysqli_affected_rows($dbc) == 1) { // If it ran OK.
 
 				// go back to index page
-				header('Location: index');
+				header('Location: ../index.php');
 
 			} else { // If it did not run OK.
 				echo '<p class="error">You could not be registered due to a system error. We apologize for any inconvenience.</p>';
